@@ -7,13 +7,18 @@ import jakarta.persistence.*;
 @Table(name = "user_model")
 public class UserModel {
     @Id
+    @SequenceGenerator(
+            name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1
+    )
     @GeneratedValue(
             strategy = GenerationType.AUTO
     )
     @Column(
             name = "user_id"
     )
-    private Integer UserId;
+    private Long UserId;
 
 
     @Column(
@@ -32,6 +37,7 @@ public class UserModel {
 
     @Column(
             name = "ssn",
+            nullable = false,
             unique = true
     )
     private String Ssn;
@@ -39,33 +45,18 @@ public class UserModel {
 
     @Column(
             name = "email",
+            nullable = false,
             unique = true
     )
     private String Email;
-
-    public UserModel(String firstName, String lastName, String ssn, String email) {
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.Ssn = ssn;
-        this.Email = email;
-    }
-
-    public UserModel(Integer userId, String firstName, String lastName, String ssn, String email) {
-        this.UserId = userId;
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.Ssn = ssn;
-        this.Email = email;
-    }
 
     public UserModel() {
 
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return UserId;
     }
-
 
     public String getFirstName() {
         return FirstName;
