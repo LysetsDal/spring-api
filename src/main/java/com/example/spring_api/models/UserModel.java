@@ -54,10 +54,6 @@ public class UserModel {
 
     }
 
-    public Long getUserId() {
-        return UserId;
-    }
-
     public String getFirstName() {
         return FirstName;
     }
