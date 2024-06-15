@@ -1,5 +1,6 @@
 package com.example.spring_api.DTO;
 
+
 public class UserDTO {
 
     private String firstName;
