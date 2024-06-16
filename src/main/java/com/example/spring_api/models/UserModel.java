@@ -7,106 +7,108 @@ import jakarta.persistence.*;
 @Table(name = "user_model")
 public class UserModel {
     @Id
+    @SequenceGenerator(
+            name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1
+    )
     @GeneratedValue(
             strategy = GenerationType.AUTO
     )
     @Column(
             name = "user_id"
     )
-    private Integer UserId;
+    private Long userId;
 
 
     @Column(
             name = "first_name",
             nullable = false
     )
-    private String FirstName;
+    private String firstName;
 
 
     @Column(
             name = "last_name",
             nullable = false
     )
-    private String LastName;
+    private String lastName;
 
 
     @Column(
             name = "ssn",
+            nullable = false,
             unique = true
     )
-    private String Ssn;
+    private String ssn;
 
 
     @Column(
             name = "email",
+            nullable = false,
             unique = true
     )
-    private String Email;
-
-    public UserModel(String firstName, String lastName, String ssn, String email) {
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.Ssn = ssn;
-        this.Email = email;
-    }
-
-    public UserModel(Integer userId, String firstName, String lastName, String ssn, String email) {
-        this.UserId = userId;
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.Ssn = ssn;
-        this.Email = email;
-    }
+    private String email;
 
     public UserModel() {
 
     }
 
-    public Integer getUserId() {
-        return UserId;
+    public UserModel(String firstName, String lastName, String ssn, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.ssn = ssn;
+        this.email = email;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        this.FirstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        this.LastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getSsn() {
-        return Ssn;
+        return ssn;
     }
 
     public void setSsn(String ssn) {
-        this.Ssn = ssn;
+        this.ssn = ssn;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        this.Email = email;
+        this.email = email;
     }
 
     @Override
     public String toString() {
         return "UserModel{" +
-                "UserId=" + UserId +
-                ", FirstName='" + FirstName + '\'' +
-                ", LastName='" + LastName + '\'' +
-                ", Ssn='" + Ssn + '\'' +
-                ", Email='" + Email + '\'' +
+                "UserId=" + userId +
+                ", FirstName='" + firstName + '\'' +
+                ", LastName='" + lastName + '\'' +
+                ", Ssn='" + ssn + '\'' +
+                ", Email='" + email + '\'' +
                 '}';
     }
 }
