@@ -1,15 +1,23 @@
 package com.example.spring_api.DTO;
 
 
+import lombok.Builder;
+
+@Builder
 public class UserDTO {
 
+    private Long userId;
     private String firstName;
     private String lastName;
     private String ssn;
     private String email;
 
-    public UserDTO() {
+    public Long getUserId() {
+        return this.userId;
+    }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -42,6 +50,5 @@ public class UserDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
 }

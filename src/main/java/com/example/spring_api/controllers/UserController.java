@@ -49,4 +49,9 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toDto(createdUser));
     }
 
+    @GetMapping("/users/delete/{id}")
+    public ResponseEntity<Long> handleDeleteUser(@PathVariable Long id) throws UserNotFoundException {
+        return userService.deleteUser(id);
+    }
+
 }
