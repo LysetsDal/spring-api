@@ -43,15 +43,25 @@ public class UserController {
         return userService.findUsersByLastName(name);
     }
 
+    @GetMapping("/users/ssn")
+    public ResponseEntity<UserDTO> handleGetUsersBySsn(@RequestParam(value = "value") String ssn) throws UserNotFoundException {
+        return userService.findUsersBySsn(ssn);
+    }
+
     @PostMapping("/users/create")
     public ResponseEntity<UserDTO> handleCreateUser(@RequestBody UserDTO userDTO) {
         UserModel createdUser = userService.createUser(userDTO);
-        return ResponseEntity.ok(userMapper.toDto(createdUser));
+        return ResponseEntity.ok(userMapper.toIdDto(createdUser));
     }
 
-    @GetMapping("/users/delete/{id}")
+    @PostMapping("/users/delete/{id}")
     public ResponseEntity<Long> handleDeleteUser(@PathVariable Long id) throws UserNotFoundException {
         return userService.deleteUser(id);
     }
 
+    @PostMapping("/users/id/{id}/set-email")
+    public ResponseEntity<UserDTO> handleSetUserEmail(@PathVariable Integer id, @RequestBody String email) throws UserNotFoundException  {
+        UserModel updatedUser = userService.changeUserEmail(id, email);
+        return ResponseEntity.ok(userMapper.toDto(updatedUser));
+    }
 }
