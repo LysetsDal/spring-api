@@ -59,7 +59,7 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
-    @PostMapping("/users/id/{id}/set-email")
+    @PostMapping("/users/id/{id}/email")
     public ResponseEntity<UserDTO> handleSetUserEmail(@PathVariable Integer id, @RequestBody String email) throws UserNotFoundException  {
         UserModel updatedUser = userService.changeUserEmail(id, email);
         return ResponseEntity.ok(userMapper.toDto(updatedUser));
