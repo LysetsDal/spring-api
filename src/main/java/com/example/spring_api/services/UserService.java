@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,37 +49,48 @@ public class UserService {
     }
 
     public ResponseEntity<List<UserDTO>> findUsersByFirstName(String firstName) {
-        List<UserModel> entities = userRepository.findAll();
-        List<UserDTO> result = new ArrayList<>();
-
-        for (UserModel user : entities) {
-            if (user.getFirstName().equals(firstName)) {
-                result.add(userMapper.toIdDto(user));
-            }
-        }
-
-        if (result.isEmpty()) {
+        List<UserModel> entities = userRepository.findUserByFirstName(firstName);
+        if (entities.isEmpty()) {
             throw new UserNotFoundException("No user by that first name");
         }
+
+        List<UserDTO> result = entities.stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
 
         return ResponseEntity.ok(result);
     }
 
     public ResponseEntity<List<UserDTO>> findUsersByLastName(String lastName) {
-        List<UserModel> entities = userRepository.findAll();
-        List<UserDTO> result = new ArrayList<>();
-
-        for (UserModel user : entities) {
-            if (user.getLastName().equals(lastName)) {
-                result.add(userMapper.toIdDto(user));
-            }
-        }
-
-        if (result.isEmpty()) {
+        List<UserModel> entities = userRepository.findUserByLastName(lastName);
+        if (entities.isEmpty()) {
             throw new UserNotFoundException("No user by that last name");
         }
 
+        List<UserDTO> result = entities.stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
+
         return ResponseEntity.ok(result);
+    }
+
+    public ResponseEntity<UserDTO>  findUsersBySsn(String ssn) throws UserNotFoundException{
+        Optional<UserModel> entity = userRepository.findUserBySsn(ssn);
+        if(entity.isEmpty()) { throw new UserNotFoundException("No user with that ssn"); }
+
+        return ResponseEntity.ok(userMapper.toDto(entity.get()));
+    }
+
+    public UserModel changeUserEmail(Integer userID, String email) {
+        Optional<UserModel> entity = userRepository.findById(userID);
+        if (entity.isEmpty()) {
+            throw new UserNotFoundException("No user by that id");
+        }
+
+        UserModel user = entity.get();
+        user.setEmail(email);
+
+        return userRepository.save(user);
     }
 
 
@@ -100,7 +110,6 @@ public class UserService {
         userRepository.delete(entity.get());
         return ResponseEntity.ok(entity.get().getUserId());
     }
-
 
 }
 
